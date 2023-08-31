@@ -4,12 +4,27 @@
             <button @click="prevSlide" class="slider__prev-slide">&#60;</button>
             <img
                 class="slider__slide"
+                :class="{'slider__active-slide': slide.isActive}"
                 v-for="slide in slides"
                 :key="slide.id"
                 v-show="slide.isActive"
                 :src="`imgs/${slide.img}`"
             >
             <button @click="nextSlide" class="slider__next-slide">&#62;</button>
+        </div>
+        <div class="cards">
+            <router-link to="/" class="cards__catalog card">
+
+            </router-link>
+            <router-link to="/" class="cards__delivery card">
+
+            </router-link>
+            <router-link to="/" class="cards__contacts card">
+
+            </router-link>
+            <router-link to="/" class="cards__about card">
+
+            </router-link>
         </div>
     </div>
 </template>
@@ -29,12 +44,7 @@ export default {
 
     methods: {
         startCarousel() {
-            this.carouselInterval = setInterval(this.NextSlide, 2000);
-        },
-        computed: {
-            activeSlide() {
-                return this.slides[this.currentSlide];
-            }
+            this.carouselInterval = setInterval(this.nextSlide, 7000);
         },
         nextSlide() {
             this.setSlideActive(false, this.currentSlide);
@@ -60,6 +70,11 @@ export default {
             clearInterval(this.carouselInterval);
         },
     },
+    computed: {
+        activeSlide() {
+            return this.slides[this.currentSlide];
+        }
+    },
     created() {
         this.startCarousel();
     },
@@ -74,34 +89,76 @@ export default {
         width: 70%;
         margin: auto;
         border: green 1px solid;
+        @media screen and (max-width: 1100px) {
+            width: 100%;
+        }
     }
     .slider {
         width: 100%;
+        min-height: 45vh;
         display: flex;
-        justify-content: space-between;
+        align-items: center;
+        @media screen and (max-width: 1100px) {
+            min-height: 20vh;
+        }
         &__prev-slide {
             width: 40%;
             margin-right: -10%;
             z-index: 10;
-            // position: absolute;
-            // top: 0;
-            // bottom: 0;
-            // z-index: 1;
-            // display: flex;
-            // align-items: center;
-            // justify-content: center;
-            // width: 15%;
-            // padding: 0;
-            // color: black;
-            // text-align: center;
+            @media screen and (max-width: 1100px) {
+                display: none;
+            }
         }
         &__slide {
             width: 100%;
+            flex: 0 0 100%;
+            border-radius: 10px;
+            transition: opacity 1s ease-in-out;
+            @media screen and (max-width: 1100px) {
+                border-radius: 0px;
+            }
+        }
+        &__active-slide {
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
         }
         &__next-slide {
+            height: 100%;
             width: 40%;
             margin-left: -10%;
             z-index: 10;
+            @media screen and (max-width: 1100px) {
+                display: none;
+            }
         }
+    }
+    .cards {
+        margin: auto;
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: 22% 22% 22% 22%;
+        gap: 4%;
+        @media screen and (max-width: 800px) {
+            width: 95%;
+            grid-template-columns: 48% 48%;
+        }
+    }
+    .card {
+        height: 15vh;
+        text-decoration: none;
+        display: inline-block;
+        color: white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+        background-size: 200% auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+        transition: .5s;
+    }
+    .card:hover {
+        background-position: right center;
     }
 </style>
