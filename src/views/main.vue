@@ -13,18 +13,23 @@
             <button @click="nextSlide" class="slider__next-slide">&#62;</button>
         </div>
         <div class="cards">
-            <router-link to="/" class="cards__catalog card">
-
-            </router-link>
-            <router-link to="/" class="cards__delivery card">
-
-            </router-link>
-            <router-link to="/" class="cards__contacts card">
-
-            </router-link>
-            <router-link to="/" class="cards__about card">
-
-            </router-link>
+            <div
+                class="accordion"
+                v-for="(card, id) in accordions"
+                :key="id"
+                @click="accordionTransform(id)"
+                >
+                <div class="accordion__sup-title">
+                    <div class="accordion__name">
+                        <img :src="`imgs/${card.img}`">
+                        <p class="accordion__title">{{ card.title }}</p>
+                    </div>
+                    <p ref="arrow" class="accordion__arrow">&rang;</p>
+                </div>
+                <p ref="cardContent" class="accordion__sub-title">
+                    {{ card.content }}
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -34,11 +39,34 @@ export default {
     data(){
         return {
             slides: [
-                {id: 1, img: 'conditioner-service.jpg', isActive: true},
-                {id: 2, img: 'supermarket.jpg', isActive: false},
-                {id: 3, img: 'technologist.jpg', isActive: false},
+                {img: 'conditioner-service.jpg', isActive: true},
+                {img: 'supermarket.jpg', isActive: false},
+                {img: 'technologist.jpg', isActive: false},
             ],
             currentSlide: 0,
+            accordions: [
+                {   
+                    id: 0,
+                    isActive: false,
+                    img: 'sale.svg',
+                    title: 'Продажа оборудования:',
+                    content: 'Мы предлагаем только высококачественное оборудование от проверенных производителей.Вы можете быть уверены, что приобретаете надежное и эффективное решение для ваших потребностей.'
+                },
+                {
+                    id: 1,
+                    isActive: false,
+                    img: 'service.svg',
+                    title: 'Обслуживание и тех поддержка:',
+                    content: 'Наша команда профессионалов всегда готова помочь вам с обслуживанием и ремонтом оборудования. Мы позаботимся о том, чтобы ваше оборудование всегда работало без сбоев.',
+                },
+                {
+                    id: 2,
+                    isActive: false,
+                    img: 'installation.svg',
+                    title: 'Монтаж и инсталляция:',
+                    content: 'Наши опытные специалисты выполнят качественный монтаж оборудования, учитывая все особенности вашего помещения. Мы гарантируем надежность и долгий срок службы вашего оборудования.',
+                },
+            ]
         }
     },
 
@@ -69,6 +97,18 @@ export default {
         stopCarousel() {
             clearInterval(this.carouselInterval);
         },
+        accordionTransform(index) {
+            this.accordions[index].isActive = !this.accordions[index].isActive;
+            
+            if(this.accordions[index].isActive) {
+                this.$refs.arrow[index].style.transform = 'rotate(90deg)';
+                this.$refs.arrow[index].style.transition = '.5s'
+                this.$refs.cardContent[index].style.display = 'block'                
+            } else {
+                this.$refs.arrow[index].style.transform = 'rotate(0deg)';
+                this.$refs.cardContent[index].style.display = 'none'
+            }
+        }
     },
     computed: {
         activeSlide() {
@@ -136,11 +176,11 @@ export default {
         margin: auto;
         margin-top: 30px;
         display: grid;
-        grid-template-columns: 22% 22% 22% 22%;
-        gap: 4%;
+        grid-template-columns: 40%;
+        gap: calc(10/3);
         @media screen and (max-width: 800px) {
             width: 95%;
-            grid-template-columns: 48% 48%;
+            grid-template-columns: 100%;
         }
     }
     .card {
@@ -160,5 +200,33 @@ export default {
     }
     .card:hover {
         background-position: right center;
+    }
+    .accordion {
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px black solid;
+        border-radius: 10px;
+        cursor: pointer;
+        &__sup-title {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        &__name {
+            display: flex;
+            align-items: flex-end;
+        }
+        &__title {
+            font-size: 1.4rem;
+        }
+        &__arrow {
+            margin-right: 10px;
+            font-size: 25px;
+        }
+        &__sub-title {
+            padding-left: 35px;
+            display: none;
+        }
     }
 </style>

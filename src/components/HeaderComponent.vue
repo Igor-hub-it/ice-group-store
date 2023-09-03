@@ -15,6 +15,11 @@
                 <div class="burger__line2" v-if="burgerActive"></div>
                 <div ref="line3" class="burger__line3"></div>
             </div>
+            <div ref="mobileMenu" class="mobile-menu">
+                <router-link @click="burgerTransform" class="mobile-menu__page-link" to="/">Главная</router-link>
+                <router-link @click="burgerTransform" class="mobile-menu__page-link" to="/catalog">Каталог</router-link>
+                <router-link @click="burgerTransform" class="mobile-menu__page-link" to="/contacts">Контакты</router-link>
+            </div>
         </div>
         <div class="actions">
             <button class="actions__floating-button">Оставить заявку</button>
@@ -36,13 +41,18 @@ export default {
             this.burgerActive = !this.burgerActive;
 
             if (!this.burgerActive) {
-                this.$refs.line1.style.transform = 'translateY(220%) rotate(45deg)';
+                this.$refs.line1.style.transform = 'translateY(200%) rotate(45deg)';
                 this.$refs.line1.style.transition = '0.5s'
-                this.$refs.line3.style.transform = 'translateY(-220%) rotate(-45deg)';
+                this.$refs.line3.style.transform = 'translateY(-200%) rotate(-45deg)';
                 this.$refs.line3.style.transition = '0.5s'
+                
+                this.$refs.mobileMenu.style.right = '0';
+                this.$refs.mobileMenu.style.transition = '0.5s'
             } else {
                 this.$refs.line1.style.transform = 'none';
                 this.$refs.line3.style.transform = 'none';
+                
+                this.$refs.mobileMenu.style.right = '-100%';
             }
         }
     },
@@ -144,6 +154,7 @@ export default {
         align-items: center;
         justify-content: space-evenly;
         flex-direction: column;
+        z-index: 3;
         border: 1px red solid;
         border-radius: 10px;
         cursor: pointer;
@@ -154,7 +165,25 @@ export default {
             height: 3px;
             width: 80%;
             border-radius: 3px;
-            background: #000;
+            background: white;
+            border: 1px solid #001963a6;
+        }
+    }
+    .mobile-menu {
+        height: 100vh;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        display: flex;
+        flex-direction: column;
+        background: blue;
+        z-index: 2;
+        &__page-link {
+            font-size: 36px;
+            color: white;
+            text-decoration: none;
+
         }
     }
 </style>
