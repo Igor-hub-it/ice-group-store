@@ -30,7 +30,6 @@
         border: 1px red solid;
         @media screen and (max-width: 1100px) {
             width: 100%;
-            padding: 0 10%;
             justify-content: center;
         }
     }

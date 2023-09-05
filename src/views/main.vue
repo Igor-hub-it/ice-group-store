@@ -1,16 +1,27 @@
 <template>
     <div class="content">
         <div class="slider">
-            <button @click="prevSlide" class="slider__prev-slide">&#60;</button>
-            <img
-                class="slider__slide"
-                :class="{'slider__active-slide': slide.isActive}"
-                v-for="slide in slides"
-                :key="slide.id"
-                v-show="slide.isActive"
-                :src="`imgs/${slide.img}`"
-            >
-            <button @click="nextSlide" class="slider__next-slide">&#62;</button>
+            <div class="slider__slides">
+                <img
+                    class="slider__slide"
+                    :class="{'slider__active-slide': slide.isActive}"
+                    v-for="slide in slides"
+                    :key="slide.id"
+                    v-show="slide.isActive"
+                    :src="`imgs/${slide.img}`"
+                >
+                <div 
+                    class="slider__content" 
+                    v-for="slide in slides"
+                    :key="slide.id"
+                    v-show="slide.isActive"
+                    >
+                    <div class="slider__title">{{ slide.title }}</div>
+                    <div class="slider__descriptor">{{ slide.text }}</div>
+                </div>
+                <button @click="prevSlide" class="slider__prev-slide"><div class="slider__arrow-prev"></div></button>
+                <button @click="nextSlide" class="slider__next-slide"><div class="slider__arrow-next"></div></button>
+            </div>
         </div>
         <div class="cards">
             <div
@@ -40,9 +51,9 @@ export default {
     data(){
         return {
             slides: [
-                {img: 'conditioner-service.jpg', isActive: true},
-                {img: 'supermarket.jpg', isActive: false},
-                {img: 'technologist.jpg', isActive: false},
+                {img: 'conditioner-service.jpg', isActive: true, title: 'заголовок', text: 'какой-то текст тралала'},
+                {img: 'supermarket.jpg', isActive: false, title: 'заголовок2', text: 'какой-то текст тралала22222'},
+                {img: 'technologist.jpg', isActive: false, title: 'заголовок3', text: 'какой-то текст тралала33333333'},
             ],
             currentSlide: 0,
             accordions: [
@@ -137,42 +148,127 @@ export default {
     .slider {
         width: 100%;
         min-height: 45vh;
-        display: flex;
-        align-items: center;
+        max-height: 45vh;
+        position: relative; /* Добавили позиционирование для .slider */
         @media screen and (max-width: 1100px) {
             min-height: 20vh;
         }
-        &__prev-slide {
-            width: 40%;
-            margin-right: -10%;
-            z-index: 10;
-            @media screen and (max-width: 1100px) {
-                display: none;
-            }
+        
+        &__slides {
+            position: relative; /* Добавили позиционирование для .slider__slides */
         }
+        
         &__slide {
             width: 100%;
-            flex: 0 0 100%;
             border-radius: 10px;
             transition: opacity 1s ease-in-out;
+            
             @media screen and (max-width: 1100px) {
                 border-radius: 0px;
             }
         }
+        
         &__active-slide {
+            max-height: 45vh;
             opacity: 1;
             transition: opacity 1s ease-in-out;
+            @media screen and (max-width: 1100px) {
+                width: 300%;
+            }
         }
-        &__next-slide {
+
+        &__content {
+            // border: rgb(255, 213, 0) 1px solid;
             height: 100%;
-            width: 40%;
-            margin-left: -10%;
-            z-index: 10;
+            position: absolute;
+            top: 0;
+            left: 15%;
+            z-index: 2;
+        }
+
+        &__title {
+            margin-top: 100px;
+            font-size: 2rem;
+            color: white;
             @media screen and (max-width: 1100px) {
                 display: none;
             }
         }
+
+        &__descriptor {
+            margin-top: 10px;
+            color: white;
+            @media screen and (max-width: 1100px) {
+                display: none;
+            }
+        }
+        
+        &__prev-slide,
+        &__next-slide {
+            padding: 0 5%;
+            // border: red 1px solid;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            z-index: 2;
+            background: rgba(0, 0, 0, .0);
+            
+            @media screen and (max-width: 1100px) {
+                display: none;
+            }
+        }
+
+        &__prev-slide:hover,
+        &__next-slide:hover {
+            background: rgba(0, 0, 0, .1);
+            transition: ease-in-out .3;
+        }
+        
+        /* Позиционирование кнопок поверх слайдов */
+        &__prev-slide {
+            left: 0;
+            transform: translateY(-50%);
+        }
+        
+        &__next-slide {
+            right: 0;
+            transform: translateY(-50%);
+        }
+        &__arrow-next, &__arrow-prev {
+            width: 45px;
+            height: 45px;
+        }
+        &__arrow-next:before, &__arrow-prev:before,
+        &__arrow-next:after, &__arrow-prev:after {
+            content: "";
+            position: absolute;
+            height: 5px;
+            width: 20px;
+            background: #fff;
+            top: 50%;
+            left: 50%;
+            border-radius: 2px;
+        }
+        &__arrow-next:before {
+            transform-origin: 100% 100%;
+            transform: translate(-75%, -50%) rotate(45deg);
+        }
+        &__arrow-next:after {
+            transform-origin: 100% 0%;
+            transform: translate(-75%, -50%) rotate(-45deg);
+        }
+        &__arrow-prev:after {
+            transform-origin: 100% 100%;
+            transform: translate(-150%, -50%) rotate(135deg);
+        }
+        &__arrow-prev:before {
+            transform-origin: 100% 0%;
+            transform: translate(-150%, 50%) rotate(-135deg)
+        }
     }
+
     .cards {
         margin: auto;
         margin-top: 30px;
