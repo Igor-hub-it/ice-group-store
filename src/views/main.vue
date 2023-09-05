@@ -170,10 +170,16 @@ export default {
         
         &__active-slide {
             max-height: 45vh;
+            min-height: 45vh;
             opacity: 1;
             transition: opacity 1s ease-in-out;
             @media screen and (max-width: 1100px) {
-                width: 300%;
+                height: 45vh;
+                // width: auto;
+            }
+            @media screen and (max-width: 800px) {
+                
+                // width: auto;
             }
         }
 

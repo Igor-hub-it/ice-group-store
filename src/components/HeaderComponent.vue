@@ -41,16 +41,20 @@ export default {
             this.burgerActive = !this.burgerActive;
 
             if (!this.burgerActive) {
-                this.$refs.line1.style.transform = 'translateY(200%) rotate(45deg)';
+                this.$refs.line1.style.transform = 'translateY(300%) rotate(45deg)';
                 this.$refs.line1.style.transition = '0.5s'
                 this.$refs.line3.style.transform = 'translateY(-200%) rotate(-45deg)';
                 this.$refs.line3.style.transition = '0.5s'
+                this.$refs.line1.style.background = 'white'
+                this.$refs.line3.style.background = 'white'
                 
                 this.$refs.mobileMenu.style.right = '0';
                 this.$refs.mobileMenu.style.transition = '0.5s'
             } else {
                 this.$refs.line1.style.transform = 'none';
                 this.$refs.line3.style.transform = 'none';
+                this.$refs.line1.style.background = 'rgba(39, 39, 39, 0.701)'
+                this.$refs.line3.style.background = 'rgba(39, 39, 39, 0.701)'
                 
                 this.$refs.mobileMenu.style.right = '-100%';
             }
@@ -68,7 +72,6 @@ export default {
         padding: 20px 0 20px 0;
         display: flex;
         justify-content: space-between;
-        border: 1px red solid;
         @media screen and (max-width: 1100px) {
             width: 100%;
             padding: 0 10%;
@@ -155,7 +158,7 @@ export default {
         justify-content: space-evenly;
         flex-direction: column;
         z-index: 3;
-        border: 1px red solid;
+        // border: 1px red solid;
         border-radius: 10px;
         cursor: pointer;
         @media screen and (min-width: 800px) {
@@ -165,8 +168,8 @@ export default {
             height: 3px;
             width: 80%;
             border-radius: 3px;
-            background: white;
-            border: 1px solid #001963a6;
+            background: rgba(39, 39, 39, 0.701);
+            // border: 1px solid #001963a6;
         }
     }
     .mobile-menu {
@@ -177,7 +180,9 @@ export default {
         right: -100%;
         display: flex;
         flex-direction: column;
-        background: blue;
+        gap: 2%;
+        padding: 25px 0 0 10%;
+        background: rgba(0, 0, 0, .6);
         z-index: 2;
         &__page-link {
             font-size: 36px;
