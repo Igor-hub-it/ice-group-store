@@ -15,6 +15,7 @@
                 <p>*Указывая свои данные на сайте Вы принимаете</p>
                 <span>пользовательское соглашение</span>
             </button>
+            <p><a href="https://ru.freepik.com/free-photo/ice-cubes-on-black-surface-with-copyspace_8761503.htm#query=ice%20cube&position=1&from_view=search&track=ais">Изображение от Racool_studio</a> на Freepik</p>
         </div>
     </div>
 </template>

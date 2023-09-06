@@ -2,14 +2,26 @@
     <div class="content">
         <div class="slider">
             <div class="slider__slides">
-                <img
+                <div v-if="isMobile">
+                    <img
                     class="slider__slide"
                     :class="{'slider__active-slide': slide.isActive}"
                     v-for="slide in slides"
                     :key="slide.id"
                     v-show="slide.isActive"
-                    :src="`imgs/${slide.img}`"
-                >
+                    :src="`imgs/${slide.mobileImg}`"
+                    >
+                </div>
+                <div v-else>
+                    <img
+                        class="slider__slide"
+                        :class="{'slider__active-slide': slide.isActive}"
+                        v-for="slide in slides"
+                        :key="slide.id"
+                        v-show="slide.isActive"
+                        :src="`imgs/${slide.img}`"
+                    >
+                </div>
                 <div 
                     class="slider__content" 
                     v-for="slide in slides"
@@ -28,11 +40,12 @@
                 class="accordion"
                 v-for="(card, id) in accordions"
                 :key="id"
-                @click="accordionTransform(id)"
+                @focus="accordionTransform(id)"
                 >
                 <div class="accordion__sup-title">
                     <div class="accordion__name">
-                        <img :src="`imgs/${card.img}`">
+                        <div v-if="0"><img :src="`imgs/${card.img}`"></div>
+                        
                         <p class="accordion__title">{{ card.title }}</p>
                     </div>
                     <p ref="arrow" class="accordion__arrow">&rang;</p>
@@ -51,11 +64,26 @@ export default {
     data(){
         return {
             slides: [
-                {img: 'conditioner-service.jpg', isActive: true, title: 'заголовок', text: 'какой-то текст тралала'},
-                {img: 'supermarket.jpg', isActive: false, title: 'заголовок2', text: 'какой-то текст тралала22222'},
-                {img: 'technologist.jpg', isActive: false, title: 'заголовок3', text: 'какой-то текст тралала33333333'},
+                {
+                    img: 'cubes.jpg',
+                    mobileImg: 'mobile-cubes.jpg',
+                    isActive: true, title: 'Климатическое оборудование любого уровня',
+                    text: 'Продажа, обслуживание, монтаж. Осуществляем поставки по Кузбассу и в города Томск, Новосибирск.'
+                },
+                {    img: 'fruits.jpg',
+                    mobileImg: 'mobile-icecream.jpg',
+                    isActive: false, title: 'заголовок2',
+                    text: 'какой-то текст тралала22222'
+                },
+                {
+                    img: 'ice-mint.jpg',
+                    mobileImg: 'mobile-ice-mint.jpg',
+                    isActive: false, title: 'заголовок3',
+                    text: 'какой-то текст тралала33333333'
+                },
             ],
             currentSlide: 0,
+            isMobile: false,
             accordions: [
                 {   
                     id: 0,
@@ -120,6 +148,10 @@ export default {
                 this.$refs.arrow[index].style.transform = 'rotate(0deg)';
                 this.$refs.cardContent[index].style.display = 'none'
             }
+        },
+        checkIfMobile() {
+            this.isMobile = window.innerWidth <= 900;
+            console.log(this.isMobile)
         }
     },
     computed: {
@@ -129,9 +161,18 @@ export default {
     },
     created() {
         this.startCarousel();
+
+        // Вызываем метод для проверки при загрузке страницы
+        this.checkIfMobile();
+
+        // Добавляем слушателя события resize
+        window.addEventListener('resize', this.checkIfMobile);
     },
     beforeDestroy() {
         this.stopCarousel();
+
+        // Удаляем слушателя события при уничтожении компонента
+        window.removeEventListener('resize', this.checkIfMobile);
     },
 }
 </script>
@@ -140,9 +181,10 @@ export default {
     .content {
         width: 70%;
         margin: auto;
-        border: green 1px solid;
+        // border: green 1px solid;
         @media screen and (max-width: 1100px) {
             width: 100%;
+            margin-top: 10px;
         }
     }
     .slider {
@@ -175,16 +217,10 @@ export default {
             transition: opacity 1s ease-in-out;
             @media screen and (max-width: 1100px) {
                 height: 45vh;
-                // width: auto;
-            }
-            @media screen and (max-width: 800px) {
-                
-                // width: auto;
             }
         }
 
         &__content {
-            // border: rgb(255, 213, 0) 1px solid;
             height: 100%;
             position: absolute;
             top: 0;
@@ -202,6 +238,7 @@ export default {
         }
 
         &__descriptor {
+            width: 70%;
             margin-top: 10px;
             color: white;
             @media screen and (max-width: 1100px) {
@@ -308,9 +345,12 @@ export default {
         width: 100%;
         margin-bottom: 20px;
         padding: 10px;
-        border: 1px black solid;
+        // background: #090907;
+        // border: 1px black solid;
         border-radius: 10px;
         cursor: pointer;
+        // color: white;
+
         &__sup-title {
             display: flex;
             align-items: flex-end;
@@ -328,7 +368,7 @@ export default {
             font-size: 25px;
         }
         &__sub-title {
-            padding-left: 35px;
+            // padding-left: 35px;
             display: none;
         }
     }

@@ -3,13 +3,8 @@
         <div class="navbar">
             <router-link to="/" class="navbar__logo">
                 <img class="navbar__logo-img" src="../../public/imgs/logo.png" alt="Логотип">
-                <h1 class="navbar__logo-name">Ice-Group</h1>
+                <h1 class="navbar__logo-name">IceGroup</h1>
             </router-link>
-            <div class="navbar__nav-links">
-                <router-link class="navbar__page-link" to="/">Главная</router-link>
-                <router-link class="navbar__page-link" to="/catalog">Каталог</router-link>
-                <router-link class="navbar__page-link" to="/contacts">Контакты</router-link>
-            </div>
             <div class="burger" @click="burgerTransform">
                 <div ref="line1" class="burger__line1"></div>
                 <div class="burger__line2" v-if="burgerActive"></div>
@@ -20,6 +15,11 @@
                 <router-link @click="burgerTransform" class="mobile-menu__page-link" to="/catalog">Каталог</router-link>
                 <router-link @click="burgerTransform" class="mobile-menu__page-link" to="/contacts">Контакты</router-link>
             </div>
+        </div>
+        <div class="navbar__nav-links">
+            <router-link class="navbar__page-link" to="/">главная</router-link>
+            <router-link class="navbar__page-link" to="/catalog">каталог</router-link>
+            <router-link class="navbar__page-link" to="/contacts">контакты</router-link>
         </div>
         <div class="actions">
             <button class="actions__floating-button">Оставить заявку</button>
