@@ -37,20 +37,13 @@
         </div>
         <div class="cards">
             <div
-                class="accordion"
-                v-for="(card, id) in accordions"
+                class="card"
+                v-for="(card, id) in cards"
                 :key="id"
-                @focus="accordionTransform(id)"
                 >
-                <div class="accordion__sup-title">
-                    <div class="accordion__name">
-                        <div v-if="0"><img :src="`imgs/${card.img}`"></div>
-                        
-                        <p class="accordion__title">{{ card.title }}</p>
-                    </div>
-                    <p ref="arrow" class="accordion__arrow">&rang;</p>
-                </div>
-                <p ref="cardContent" class="accordion__sub-title">
+                <img class="card__img" :src="`imgs/${card.img}`">
+                <p class="card__title">{{ card.title }}</p>
+                <p class="card__sub-title">
                     {{ card.content }}
                 </p>
             </div>
@@ -72,39 +65,42 @@ export default {
                 },
                 {    img: 'fruits.jpg',
                     mobileImg: 'mobile-icecream.jpg',
-                    isActive: false, title: 'заголовок2',
-                    text: 'какой-то текст тралала22222'
+                    isActive: false, title: 'Мы предлагаем',
+                    text: 'Широкий ассортимент климатического оборудования для всех уровней потребностей. Независимо от того, нужно ли вам оборудование для дома, офиса или промышленного объекта, мы готовы предоставить вам решения, которые обеспечат идеальный микроклимат.'
                 },
                 {
                     img: 'ice-mint.jpg',
                     mobileImg: 'mobile-ice-mint.jpg',
-                    isActive: false, title: 'заголовок3',
-                    text: 'какой-то текст тралала33333333'
+                    isActive: false, title: 'Мы предлагаем',
+                    text: 'Широкий ассортимент климатического оборудования для всех уровней потребностей. Независимо от того, нужно ли вам оборудование для дома, офиса или промышленного объекта, мы готовы предоставить вам решения, которые обеспечат идеальный микроклимат.'
                 },
             ],
             currentSlide: 0,
             isMobile: false,
-            accordions: [
+            cards: [
                 {   
-                    id: 0,
                     isActive: false,
                     img: 'sale.svg',
                     title: 'Продажа оборудования:',
                     content: 'Мы предлагаем только высококачественное оборудование от проверенных производителей.Вы можете быть уверены, что приобретаете надежное и эффективное решение для ваших потребностей.'
                 },
                 {
-                    id: 1,
                     isActive: false,
                     img: 'service.svg',
                     title: 'Обслуживание и тех поддержка:',
                     content: 'Наша команда профессионалов всегда готова помочь вам с обслуживанием и ремонтом оборудования. Мы позаботимся о том, чтобы ваше оборудование всегда работало без сбоев.',
                 },
                 {
-                    id: 2,
                     isActive: false,
                     img: 'installation.svg',
                     title: 'Монтаж и инсталляция:',
                     content: 'Наши опытные специалисты выполнят качественный монтаж оборудования, учитывая все особенности вашего помещения. Мы гарантируем надежность и долгий срок службы вашего оборудования.',
+                },
+                {
+                    isActive: false,
+                    img: 'installation.svg',
+                    title: 'Доставка:',
+                    content: 'Мы осуществляем поставки климатического оборудования не только по Кузбассу, но и в такие города, как Томск и Новосибирск. Свяжитесь с нами сегодня, чтобы узнать больше о наших продуктах и услугах. Наша цель - ваш комфорт.',
                 },
             ]
         }
@@ -137,18 +133,7 @@ export default {
         stopCarousel() {
             clearInterval(this.carouselInterval);
         },
-        accordionTransform(index) {
-            this.accordions[index].isActive = !this.accordions[index].isActive;
-            
-            if(this.accordions[index].isActive) {
-                this.$refs.arrow[index].style.transform = 'rotate(90deg)';
-                this.$refs.arrow[index].style.transition = '.5s'
-                this.$refs.cardContent[index].style.display = 'block'                
-            } else {
-                this.$refs.arrow[index].style.transform = 'rotate(0deg)';
-                this.$refs.cardContent[index].style.display = 'none'
-            }
-        },
+
         checkIfMobile() {
             this.isMobile = window.innerWidth <= 900;
             console.log(this.isMobile)
@@ -229,6 +214,7 @@ export default {
         }
 
         &__title {
+            width: 70%;
             margin-top: 100px;
             font-size: 2rem;
             color: white;
@@ -238,7 +224,7 @@ export default {
         }
 
         &__descriptor {
-            width: 70%;
+            width: 45%;
             margin-top: 10px;
             color: white;
             @media screen and (max-width: 1100px) {
@@ -316,60 +302,29 @@ export default {
         margin: auto;
         margin-top: 30px;
         display: grid;
-        grid-template-columns: 40%;
-        gap: calc(10/3);
+        grid-template-columns: 24% 24% 24% 24%;
+        gap: calc(4%/3);
         @media screen and (max-width: 800px) {
             width: 95%;
             grid-template-columns: 100%;
         }
     }
     .card {
-        height: 15vh;
-        text-decoration: none;
-        display: inline-block;
-        color: white;
-        padding: 20px 30px;
-        border-radius: 10px;
-        font-family: 'Montserrat', sans-serif;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
-        background-size: 200% auto;
-        box-shadow: 0 0 20px rgba(0, 0, 0, .1);
-        transition: .5s;
-    }
-    .card:hover {
-        background-position: right center;
-    }
-    .accordion {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
         margin-bottom: 20px;
         padding: 10px;
-        // background: #090907;
-        // border: 1px black solid;
-        border-radius: 10px;
-        cursor: pointer;
-        // color: white;
+        border-radius: 5px;
+        box-shadow: 0px 0px 2px 1px rgba(34, 60, 80, 0.15);
 
-        &__sup-title {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
+        &__img {
+            width: 15%;
         }
-        &__name {
-            display: flex;
-            align-items: flex-end;
-        }
+
         &__title {
             font-size: 1.4rem;
-        }
-        &__arrow {
-            margin-right: 10px;
-            font-size: 25px;
-        }
-        &__sub-title {
-            // padding-left: 35px;
-            display: none;
         }
     }
 </style>
