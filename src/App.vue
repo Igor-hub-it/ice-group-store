@@ -1,22 +1,21 @@
 <template>
-  <HeaderComponent/>
+  <v-header/>
   <router-view/>
-  <FooterComponent/>
+  <v-footer/>
 </template>
 
 <script>
-
-import HeaderComponent from '@/components/HeaderComponent.vue';
-import FooterComponent from '@/components/FooterComponent.vue';
+import VFooter from './components/VFooter.vue';
+import VHeader from './components/VHeader.vue';
 
 export default {
   components: { 
-    HeaderComponent,
-    FooterComponent
+    VHeader,
+    VFooter,
    },
   data() {
     return {
-
+      
     }
   }
 

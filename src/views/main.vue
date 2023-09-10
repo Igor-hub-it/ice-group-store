@@ -3,14 +3,15 @@
         <div class="slider">
             <div class="slider__slides">
                 <div v-if="isMobile">
-                    <img
-                    class="slider__slide"
-                    :class="{'slider__active-slide': slide.isActive}"
+                    <div
                     v-for="slide in slides"
-                    :key="slide.id"
-                    v-show="slide.isActive"
-                    :src="`imgs/${slide.mobileImg}`"
-                    >
+                    :key="slide.id">    
+                        <img v-if="slide.isActive"
+                        class="slider__slide"
+                        :class="{'slider__active-slide': slide.isActive}"
+                        :src="`imgs/${slide.mobileImg}`"
+                        >
+                    </div>
                 </div>
                 <div v-else>
                     <img
