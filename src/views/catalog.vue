@@ -1,18 +1,12 @@
 <template>
     <div class="content">
-        <div @click="fetchPosts()">тык</div>
+        <button @click="fetchPosts()">Обновить</button>
         <div class="filters">
-            <div class="filters__name-filter">
-                <input type="text" >
-            </div>
+            <input class="filters__name-filter" type="text" placeholder="поиск по слову">
+            <p>стоимость</p>
             <div class="filters__price-filter">
-                <div class="filters__price-from">
-                    <input type="text" name="" id="" placeholder="xyi">
-                </div>
-                <div class="filter__price-to">
-                    <input type="text" name="" id="" placeholder="pizda">
-                </div>
-
+                <input class="filters__price-from" type="text" name="" id="" placeholder="от">
+                <input class="filters__price-to" type="text" name="" id="" placeholder="до">
             </div>
         </div>
         <div
@@ -22,6 +16,7 @@
             :key="item.id">
                 <div class="card__title">{{ item.title }}</div>
                 <div class="card__body">{{ item.body }}</div>
+                <button class="card__about">подробнее...</button>
             </div>
         </div>
     </div>
@@ -40,12 +35,16 @@ export default{
         async fetchPosts() {
             try {
                 this.items = await fetchData()
+                this.items = this.items.slice(0, 20)
                 console.log(this.items)
             } catch(error) {
 
             }
         }
-    }
+    },
+    mounted() {
+        this.fetchPosts()
+    },
 
 
 }
@@ -63,12 +62,19 @@ export default{
     .filters {
         display: flex;
         justify-content: flex-start;
+        flex-direction: column;
 
-        &__name-filter {
-
+        &__name-filter, &__price-from, &__price-to {
+            border: rgb(77, 77, 77) 1px solid;
+            border-radius: 5px;
+            margin: 1rem 0;
+            padding: 10px;
         }
-        &__price__filter {
 
+        &__price-filter {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
         }
     }
     .goods {
@@ -77,6 +83,20 @@ export default{
         gap: calc(4%/3);
     }
     .card {
-        border: red 1px solid;
+        padding: 10px;
+        border: rgb(77, 77, 77) 1px solid;
+        border-radius: 5px;
+
+        &__about {
+            margin-top: 10px;
+            padding: 10px;
+            border: rgb(77, 77, 77) 1px solid;
+            border-radius: 5px;
+        }
+        &__about:hover {
+            transition: 0.3s;
+            color: white;
+            background: rgb(77, 77, 77);
+        }
     }
 </style>
