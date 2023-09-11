@@ -80,7 +80,7 @@ export default{
     .goods {
         display: grid;
         grid-template-columns: 24% 24% 24% 24%;
-        gap: calc(4%/3);
+        // gap: calc(4%/3);
     }
     .card {
         padding: 10px;
