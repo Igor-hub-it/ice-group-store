@@ -28,7 +28,7 @@
         display: flex;
         justify-content: flex-start;
         gap: 20%;
-        border: 1px red solid;
+        // border: 1px red solid;
         @media screen and (max-width: 1100px) {
             width: 100%;
             justify-content: center;
@@ -41,7 +41,7 @@
             flex-direction: column;
         }
         &__page-link {
-            margin: 0 0 10px 20px;
+            margin: .2rem 0;
             color: #000000A6;
             font-size: 1.1rem;
         }
