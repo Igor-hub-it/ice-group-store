@@ -2,25 +2,12 @@
     <div class="content">
         <div class="slider">
             <div class="slider__slides">
-                <div v-if="isMobile">
-                    <div
-                    v-for="slide in slides"
-                    :key="slide.id">    
-                        <img v-if="slide.isActive"
-                        class="slider__slide"
-                        :class="{'slider__active-slide': slide.isActive}"
-                        :src="`imgs/${slide.mobileImg}`"
-                        >
-                    </div>
-                </div>
-                <div v-else>
+                <div v-for="slide in slides" :key="slide.id">
                     <img
+                        v-if="slide.isActive"
                         class="slider__slide"
                         :class="{'slider__active-slide': slide.isActive}"
-                        v-for="slide in slides"
-                        :key="slide.id"
-                        v-show="slide.isActive"
-                        :src="`imgs/${slide.img}`"
+                        :src="`imgs/${isMobile.value ? slide.mobileImg : slide.img}`"
                     >
                 </div>
                 <div 
@@ -28,7 +15,7 @@
                     v-for="slide in slides"
                     :key="slide.id"
                     v-show="slide.isActive"
-                    >
+                >
                     <div class="slider__title">{{ slide.title }}</div>
                     <div class="slider__descriptor">{{ slide.text }}</div>
                 </div>
@@ -41,126 +28,112 @@
                 class="card"
                 v-for="(card, id) in cards"
                 :key="id"
-                >
+            >
                 <img class="card__img" :src="`imgs/${card.img}`">
                 <p class="card__title">{{ card.title }}</p>
-                <p class="card__sub-title">
-                    {{ card.content }}
-                </p>
+                <p class="card__sub-title">{{ card.content }}</p>
             </div>
         </div>
-        
     </div>
 </template>
 
-<script>
-export default {
-    data(){
-        return {
-            slides: [
-                {
-                    img: 'cubes.jpg',
-                    mobileImg: 'mobile-cubes.jpg',
-                    isActive: true, title: 'Климатическое оборудование любого уровня',
-                    text: 'Продажа, обслуживание, монтаж. Осуществляем поставки по Кузбассу и в города Томск, Новосибирск.'
-                },
-                {    img: 'fruits.jpg',
-                    mobileImg: 'mobile-icecream.jpg',
-                    isActive: false, title: 'Мы предлагаем',
-                    text: 'Широкий ассортимент климатического оборудования для всех уровней потребностей. Независимо от того, нужно ли вам оборудование для дома, офиса или промышленного объекта, мы готовы предоставить вам решения, которые обеспечат идеальный микроклимат.'
-                },
-                {
-                    img: 'ice-mint.jpg',
-                    mobileImg: 'mobile-ice-mint.jpg',
-                    isActive: false, title: 'Мы предлагаем',
-                    text: 'Широкий ассортимент климатического оборудования для всех уровней потребностей. Независимо от того, нужно ли вам оборудование для дома, офиса или промышленного объекта, мы готовы предоставить вам решения, которые обеспечат идеальный микроклимат.'
-                },
-            ],
-            currentSlide: 0,
-            isMobile: false,
-            cards: [
-                {   
-                    isActive: false,
-                    img: 'sale.svg',
-                    title: 'Продажа оборудования:',
-                    content: 'Мы предлагаем только высококачественное оборудование от проверенных производителей.Вы можете быть уверены, что приобретаете надежное и эффективное решение для ваших потребностей.'
-                },
-                {
-                    isActive: false,
-                    img: 'service.svg',
-                    title: 'Обслуживание и тех поддержка:',
-                    content: 'Наша команда профессионалов всегда готова помочь вам с обслуживанием и ремонтом оборудования. Мы позаботимся о том, чтобы ваше оборудование всегда работало без сбоев.',
-                },
-                {
-                    isActive: false,
-                    img: 'installation.svg',
-                    title: 'Монтаж и инсталляция:',
-                    content: 'Наши опытные специалисты выполнят качественный монтаж оборудования, учитывая все особенности вашего помещения. Мы гарантируем надежность и долгий срок службы вашего оборудования.',
-                },
-                {
-                    isActive: false,
-                    img: 'installation.svg',
-                    title: 'Доставка:',
-                    content: 'Мы осуществляем поставки климатического оборудования не только по Кузбассу, но и в такие города, как Томск и Новосибирск. Свяжитесь с нами сегодня, чтобы узнать больше о наших продуктах и услугах. Наша цель - ваш комфорт.',
-                },
-            ]
-        }
-    },
 
-    methods: {
-        startCarousel() {
-            this.carouselInterval = setInterval(this.nextSlide, 7000);
+<script setup>
+    import { ref, computed, onBeforeUnmount, onMounted } from 'vue';
+
+    const slides = ref([
+        {
+            img: 'cubes.jpg',
+            mobileImg: 'mobile-cubes.jpg',
+            isActive: true, title: 'Климатическое оборудование любого уровня',
+            text: 'Продажа, обслуживание, монтаж. Осуществляем поставки по Кузбассу и в города Томск, Новосибирск.'
         },
-        nextSlide() {
-            this.setSlideActive(false, this.currentSlide);
-
-            this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-
-            this.setSlideActive(true, this.currentSlide);
+        {    img: 'fruits.jpg',
+            mobileImg: 'mobile-icecream.jpg',
+            isActive: false, title: 'Мы предлагаем',
+            text: 'Широкий ассортимент климатического оборудования для всех уровней потребностей. Независимо от того, нужно ли вам оборудование для дома, офиса или промышленного объекта, мы готовы предоставить вам решения, которые обеспечат идеальный микроклимат.'
         },
-        
-        prevSlide() {
-            this.setSlideActive(false, this.currentSlide);
-
-            this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-
-            this.setSlideActive(true, this.currentSlide);
+        {
+            img: 'ice-mint.jpg',
+            mobileImg: 'mobile-ice-mint.jpg',
+            isActive: false, title: 'Мы предлагаем',
+            text: 'Широкий ассортимент климатического оборудования для всех уровней потребностей. Независимо от того, нужно ли вам оборудование для дома, офиса или промышленного объекта, мы готовы предоставить вам решения, которые обеспечат идеальный микроклимат.'
         },
-        
-        setSlideActive(isActive, slideIndex) {
-            this.slides[slideIndex].isActive = isActive;
+    ]);
+    const currentSlide = ref(0);
+    const isMobile = ref(false);
+    const cards = ref([
+        {   
+            isActive: false,
+            img: 'sale.svg',
+            title: 'Продажа оборудования:',
+            content: 'Мы предлагаем только высококачественное оборудование от проверенных производителей.Вы можете быть уверены, что приобретаете надежное и эффективное решение для ваших потребностей.'
         },
-
-        stopCarousel() {
-            clearInterval(this.carouselInterval);
+        {
+            isActive: false,
+            img: 'service.svg',
+            title: 'Обслуживание и тех поддержка:',
+            content: 'Наша команда профессионалов всегда готова помочь вам с обслуживанием и ремонтом оборудования. Мы позаботимся о том, чтобы ваше оборудование всегда работало без сбоев.',
         },
+        {
+            isActive: false,
+            img: 'installation.svg',
+            title: 'Монтаж и инсталляция:',
+            content: 'Наши опытные специалисты выполнят качественный монтаж оборудования, учитывая все особенности вашего помещения. Мы гарантируем надежность и долгий срок службы вашего оборудования.',
+        },
+        {
+            isActive: false,
+            img: 'installation.svg',
+            title: 'Доставка:',
+            content: 'Мы осуществляем поставки климатического оборудования не только по Кузбассу, но и в такие города, как Томск и Новосибирск. Свяжитесь с нами сегодня, чтобы узнать больше о наших продуктах и услугах. Наша цель - ваш комфорт.',
+        },
+    ]);
 
-        checkIfMobile() {
-            this.isMobile = window.innerWidth <= 900;
-            console.log(this.isMobile)
-        }
-    },
-    computed: {
-        activeSlide() {
-            return this.slides[this.currentSlide];
-        }
-    },
-    created() {
-        this.startCarousel();
+    const startCarousel = () => {
+        carouselInterval.value = setInterval(nextSlide, 7000);
+    };
 
-        // Вызываем метод для проверки при загрузке страницы
-        this.checkIfMobile();
+    const nextSlide = () => {
+        stopCarousel();
+        setSlideActive(false, currentSlide.value);
+        currentSlide.value = (currentSlide.value + 1) % slides.value.length;
+        setSlideActive(true, currentSlide.value);
+        startCarousel();
+    };
 
-        // Добавляем слушателя события resize
-        window.addEventListener('resize', this.checkIfMobile);
-    },
-    beforeDestroy() {
-        this.stopCarousel();
+    const prevSlide = () => {
+        stopCarousel();
+        setSlideActive(false, currentSlide.value);
+        currentSlide.value = (currentSlide.value - 1 + slides.value.length) % slides.value.length;
+        setSlideActive(true, currentSlide.value);
+        startCarousel();
+    };
 
-        // Удаляем слушателя события при уничтожении компонента
-        window.removeEventListener('resize', this.checkIfMobile);
-    },
-}
+    const setSlideActive = (isActive, slideIndex) => {
+        slides.value[slideIndex].isActive = isActive;
+    };
+
+    const stopCarousel = () => {
+        clearInterval(carouselInterval.value);
+    };
+
+    const checkIfMobile = () => {
+        isMobile.value = window.innerWidth <= 900;
+    };
+
+    const activeSlide = computed(() => slides.value[currentSlide.value]);
+
+    const carouselInterval = ref(null);
+    onMounted(() => {
+        startCarousel();
+        checkIfMobile();
+        window.addEventListener('resize', checkIfMobile);
+    });
+
+    onBeforeUnmount(() => {
+        stopCarousel();
+        window.removeEventListener('resize', checkIfMobile);
+    });
 </script>
 
 <style lang="scss" scoped>

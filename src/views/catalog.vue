@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <button @click="fetchPosts()">Обновить</button>
+        <button @click="fetchPosts">Обновить</button>
         <div class="filters">
             <input class="filters__name-filter" type="text" placeholder="поиск по слову">
             <p>стоимость</p>
@@ -9,11 +9,8 @@
                 <input class="filters__price-to" type="text" name="" id="" placeholder="до">
             </div>
         </div>
-        <div
-        class="goods">
-            <div class="card"
-            v-for="item in items"
-            :key="item.id">
+        <div class="goods">
+            <div class="card" v-for="item in items" :key="item.id">
                 <div class="card__title">{{ item.title }}</div>
                 <div class="card__body">{{ item.body }}</div>
                 <button class="card__about">подробнее...</button>
@@ -22,33 +19,25 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
 import { fetchData } from '@/api.js/postApi'
 
-export default{
-    data() {
-        return {
-            items: [],
-        }
-    },
-    methods: {
-        async fetchPosts() {
-            try {
-                this.items = await fetchData()
-                this.items = this.items.slice(0, 20)
-                console.log(this.items)
-            } catch(error) {
+const items = ref([])
 
-            }
-        }
-    },
-    mounted() {
-        this.fetchPosts()
-    },
-
-
+const fetchPosts = async () => {
+    try {
+        const data = await fetchData()
+        items.value = data.slice(0, 20)
+        console.log(items.value)
+    } catch (error) {
+        // handle the error if necessary
+    }
 }
+
+onMounted(fetchPosts)
 </script>
+
 
 <style lang="scss" scoped>
     .content {

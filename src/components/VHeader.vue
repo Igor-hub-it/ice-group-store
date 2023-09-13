@@ -1,67 +1,33 @@
-<template>
-    <div class="content">
-        <div class="navbar">
-            <router-link to="/" class="navbar__logo">
-                <img class="navbar__logo-img" src="../../public/imgs/logo.png" alt="Логотип">
-                <h1 class="navbar__logo-name">IceGroup</h1>
-            </router-link>
-            <div class="burger" @click="burgerTransform">
-                <div ref="line1" class="burger__line1"></div>
-                <div class="burger__line2" v-if="burgerActive"></div>
-                <div ref="line3" class="burger__line3"></div>
-            </div>
-            <div ref="mobileMenu" class="mobile-menu">
-                <router-link @click="burgerTransform" class="mobile-menu__page-link" to="/">Главная</router-link>
-                <router-link @click="burgerTransform" class="mobile-menu__page-link" to="/catalog">Каталог</router-link>
-                <router-link @click="burgerTransform" class="mobile-menu__page-link" to="/contacts">Контакты</router-link>
-            </div>
-        </div>
-        <div class="navbar__nav-links">
-            <router-link class="navbar__page-link" to="/">главная</router-link>
-            <router-link class="navbar__page-link" to="/catalog">каталог</router-link>
-            <router-link class="navbar__page-link" to="/contacts">контакты</router-link>
-        </div>
-        <div class="actions">
-            <button class="actions__floating-button">Оставить заявку</button>
-        </div>
-    </div>
-</template>
+<script setup>
+import { ref } from 'vue';
 
+const burgerActive = ref(true);
+const line1 = ref(null);
+const line3 = ref(null);
+const mobileMenu = ref(null);
 
-<script>
-export default {
-    name: 'HeaderComponent',
-    data() {
-        return {
-            burgerActive: true,
-        }
-    },
-    methods: {
-        burgerTransform() {
-            this.burgerActive = !this.burgerActive;
+const burgerTransform = () => {
+    burgerActive.value = !burgerActive.value;
 
-            if (!this.burgerActive) {
-                this.$refs.line1.style.transform = 'translateY(300%) rotate(45deg)';
-                this.$refs.line1.style.transition = '0.5s'
-                this.$refs.line3.style.transform = 'translateY(-200%) rotate(-45deg)';
-                this.$refs.line3.style.transition = '0.5s'
-                this.$refs.line1.style.background = 'white'
-                this.$refs.line3.style.background = 'white'
-                
-                this.$refs.mobileMenu.style.right = '0';
-                this.$refs.mobileMenu.style.transition = '0.5s'
-            } else {
-                this.$refs.line1.style.transform = 'none';
-                this.$refs.line3.style.transform = 'none';
-                this.$refs.line1.style.background = 'rgba(39, 39, 39, 0.701)'
-                this.$refs.line3.style.background = 'rgba(39, 39, 39, 0.701)'
-                
-                this.$refs.mobileMenu.style.right = '-100%';
-            }
-        }
-    },
-}
+    if (!burgerActive.value) {
+        line1.value.style.transform = 'translateY(300%) rotate(45deg)';
+        line1.value.style.transition = '0.5s';
+        line3.value.style.transform = 'translateY(-200%) rotate(-45deg)';
+        line3.value.style.transition = '0.5s';
+        line1.value.style.background = 'white';
+        line3.value.style.background = 'white';
 
+        mobileMenu.value.style.right = '0';
+        mobileMenu.value.style.transition = '0.5s';
+    } else {
+        line1.value.style.transform = 'none';
+        line3.value.style.transform = 'none';
+        line1.value.style.background = 'rgba(39, 39, 39, 0.701)';
+        line3.value.style.background = 'rgba(39, 39, 39, 0.701)';
+
+        mobileMenu.value.style.right = '-100%';
+    }
+};
 </script>
 
 <style lang="scss" scoped>
